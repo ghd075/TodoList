@@ -27,6 +27,7 @@ function deleteToDo(event){
     li.remove();
     saveToDos();
     updateCounts();
+    filterTodo(currentFilter);
 }
 
 function checkToDo(event){
@@ -41,6 +42,7 @@ function checkToDo(event){
             spanTag.style.textDecoration = 'line-through';
             spanTag.style.textDecorationColor = 'red';
             checkBtn.style.backgroundColor = 'gray';
+            checkBtn.style.opacity = '0.5';
             event.target.innerText = '↩';
         } else {
             spanTag.style.textDecoration = '';
@@ -51,6 +53,7 @@ function checkToDo(event){
     }
     saveToDos();
     updateCounts();
+    filterTodo(currentFilter);
 }
 
 
@@ -79,9 +82,14 @@ function paintToDo(newToDo){
 function handleTodoSubmit(event){
     event.preventDefault();
     if(toDoInput.value.length === 0){
-        alert('할 일을 적어주세요!')
+        alert('할 일을 적어주세요!');
     }else{
         const todoText = toDoInput.value;
+        if (todoList.some((toDo) => toDo.text === todoText)) {
+            alert('이 할 일은 이미 추가되었습니다!');
+            toDoInput.value = '';
+            return;
+        }
         toDoInput.value = '';
         const newToDoObj ={
             id: Date.now(),
@@ -92,6 +100,7 @@ function handleTodoSubmit(event){
         paintToDo(newToDoObj);
         saveToDos();
         updateCounts();
+        filterTodo(currentFilter);
     }
     
 }
@@ -105,6 +114,54 @@ function updateCounts(){
     completedCountSpan.innerText = completedCount;
     incompleteCountSpan.innerText = incompleteCount;
 }
+
+function filterTodo(filter) {
+    const allItems = toDoList.querySelectorAll('li');
+    allItems.forEach(item => {
+        const todo = todoList.find(toDo => toDo.id === parseInt(item.id));
+        if (filter === 'all') {
+            item.style.display = 'flex';
+        } else if (filter === 'done' && todo.done) {
+            item.style.display = 'flex';
+        } else if (filter === 'left' && !todo.done) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+    // 글자색 반전
+    if (filter === 'all') {
+        stateAll.classList.add('active');
+        stateDone.classList.remove('active');
+        stateLeft.classList.remove('active');
+    } else if (filter === 'done') {
+        stateAll.classList.remove('active');
+        stateDone.classList.add('active');
+        stateLeft.classList.remove('active');
+    } else if (filter === 'left') {
+        stateAll.classList.remove('active');
+        stateDone.classList.remove('active');
+        stateLeft.classList.add('active');
+    }   
+}
+
+let currentFilter = 'all';
+
+stateAll.addEventListener('click', () => {
+    currentFilter = 'all';
+    filterTodo('all');
+});
+
+stateDone.addEventListener('click', () => {
+    currentFilter = 'done';
+    filterTodo('done');
+});
+
+stateLeft.addEventListener('click', () => {
+    currentFilter = 'left';
+    filterTodo('left');
+});
+
 
 toDoForm.addEventListener('submit',handleTodoSubmit);
 
