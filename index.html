@@ -22,6 +22,7 @@
         <div id="location"></div>
         <div id="temperature"></div>
         <div id="condition"></div>
+        <div id="icon"></div>
       </div>
     </div>
 
@@ -66,11 +67,23 @@
         <span></span>
       </div>
     </footer>
+    <!-- 배경 이미지 랜덤 출력 -->
     <script src="js/changeBG.js"></script>
+    <!-- 현재 시간 표시-->
     <script src="js/clock.js"></script>
+    <!-- 랜덤명언 기능 -->
     <script src="js/quote.js"></script>
+    <!-- 투두리스트 기능 -->
     <script src="js/todolist.js"></script>
+    <!-- 유저로부터 네임을 입력받아 localStorage에 저장 -->
     <script src="js/greeting.js"></script>
+    <!-- localStorage 리셋 기능 -->
     <script src="js/allReset.js"></script>
+    <!--  
+      - openweathermap.org로부터 api를 받아와 localStorage에 저장
+      - 날씨와 온도, 국가와 도시 출력
+      - 날씨에 따라 아이콘 출력, 국가에 따라 국기 출력
+    -->
+    <script src="js/weather.js"></script>
   </body>
 </html>
