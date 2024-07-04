@@ -1,5 +1,5 @@
 const showTodo = document.querySelector('#change');
-const modalTodo = document.querySelector('main');
+const modalTodo = document.querySelector('#main_todo_h');
 
 const toDoList = document.querySelector('#todo-list');
 const toDoForm = document.querySelector('#todo-form');
